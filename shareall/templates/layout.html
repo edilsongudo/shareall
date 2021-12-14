@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>ShareAll</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bootstrap4.4/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fontawesome-free-5.15.2-web/css/all.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div style="margin-bottom: 30px;">
+            {{ current_dir }}
+        </div>
+
+        <div class="media_element" >
+            <div>
+                <a href="/{{ parent_dir }}">
+                    <div><i class="fas fa-folder"></i></div>
+                    <div class="text">Parent Dir</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="media_container">
+
+            {% for m in media %}
+                {% if m.filename[0] != '.' %}
+                    <div class="media_element">
+                        <div>
+                            <a class="link" href="/{{ m.absolutepath }}">
+                                <div>
+                                    {% if m.is_dir %}
+                                        <div><i class="fas fa-folder"></i></div>
+                                    {% else %}
+                                        <div><i class="{{ m.extension_icon }}"></i></div>
+                                    {% endif %}
+                                    <div><div class="text">{{ m.filename }}</div></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='vue.js') }}"></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
+
+    <script type="text/javascript">
+        new Vue({
+        })
+    </script>
+
+<!--     <script type="text/javascript">
+        let links = document.querySelectorAll('.link')
+        links.forEach(function(link, index) {
+            link.addEventListener('click', function (event, elem) {
+                event.preventDefault()
+                let url = event.target.parentElement.parentElement.parentElement.href
+
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    data: {'ajax': true},
+                    success: function (res) {
+                        console.log(res)
+                    }
+                })
+            })
+        });
+    </script> -->
+</body>
+</html>
