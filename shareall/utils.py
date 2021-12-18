@@ -78,3 +78,9 @@ def get_extension_icon(ext):
         return 'fas fa-file'
     else:
         return 'fas fa-file'
+
+
+def reduce_file_name(filename):
+    if len(filename) >= 20:
+        filename = filename[0:10] + '...' + filename[-5:]
+    return filename
