@@ -1,3 +1,6 @@
+import qrcode
+import socket
+
 #!/usr/bin/env python
 #__author__ = "Jesse David Dinneen"
 #__email__ = ""jesse.dinneen@vuw.ac.nz""
@@ -84,3 +87,11 @@ def reduce_file_name(filename):
     if len(filename) >= 20:
         filename = filename[0:10] + '...' + filename[-5:]
     return filename
+
+
+def generate_qr_code(LOCAL_IP, PORT):
+    img = qrcode.make(LOCAL_IP + ':' + str(PORT))
+    img.save('static/qr_code.png')
+
+def is_wifi_turned_on():
+    return socket.gethostbyname(socket.gethostname()) == "127.0.0.1"

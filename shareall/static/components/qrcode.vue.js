@@ -1,0 +1,3 @@
+var QRcode = {
+    template: `Hello`
+}
