@@ -89,8 +89,8 @@ def reduce_file_name(filename):
     return filename
 
 
-def generate_qr_code(LOCAL_IP, PORT):
-    img = qrcode.make(LOCAL_IP + ':' + str(PORT))
+def generate_qr_code(LOCAL_IP):
+    img = qrcode.make(LOCAL_IP)
     img.save('static/qr_code.png')
 
 def is_wifi_turned_on():

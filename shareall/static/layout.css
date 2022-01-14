@@ -3,11 +3,10 @@
     src:  url('fonts/CeraProMedium.woff2')
 }
 
-
 :root {
-  --bgcolor1: #647687;
-  --bgcolor2: #c0c0c0;
-  --fontcolor: #fff;
+  --bgcolor1: #515151;
+  --bgcolor2: #515151;
+  --fontcolor: #F9F9F9;
 }
 
 body {
@@ -24,7 +23,7 @@ body {
 }
 
 i {
-  font-size: 3rem;
+  font-size: 4.5rem;
 }
 
 a {
@@ -55,4 +54,14 @@ a {
 .text {
   max-width: 50px;
   height: 30px;
+}
+
+.clickableBtn {
+  padding: 25px 50px;
+  border-radius: 5px;
+  background: lightblue;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 10px;
 }

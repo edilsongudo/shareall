@@ -1,4 +1,4 @@
-var Home = {
+var home = {
     template:
     `
         <div class="container">
@@ -32,5 +32,52 @@ var Home = {
                         </div>
                     </div>
              </div>
-        </div>`
+        </div>`,
+            data() {
+                return {
+                current_dir: "",
+                media: [],
+                parent_dir: "",
+                parent_dir_url: ""
+            }
+            },
+
+            delimiters: ['[[', ']]'],
+
+            methods: {
+                requestFolders: function(url) {
+                console.log(`Ajax Call to url ${url}`)
+
+                var state = this //ok THIS IS TO MUCH! REFACTOR THIS
+
+                $.ajax({
+                    dataType: 'json',
+                    url: url,
+                    data: {'ajax': true},
+                    success: function (res) {
+                        state.current_dir = res.current_dir
+                        state.media = res.media
+                        state.parent_dir = res.parent_dir
+                        state.parent_dir_url = res.parent_dir_url
+                    }
+                })
+            },
+                updateUI: function (e) {
+                    let is_folder = e.target.querySelector('i.fa-folder')
+                    let url = e.target.querySelector('a').href
+
+                    if (is_folder) {
+                        e.preventDefault()
+                        this.requestFolders(url)
+                    } else {
+                        window.open(url)
+                    }
+
+                },
+
+            },
+
+            created() {
+                this.requestFolders(window.origin)
+            }
 }

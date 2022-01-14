@@ -10,7 +10,10 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='layout.css') }}">
 </head>
 <body>
-    <img src="{{ url_for('static', filename='qr_code.png') }}">
-    <div><a href="/">Go to Home</a></div>
+    <div class="container">
+        <h1>How to Share Files?</h1>
+        <p>Visit {{ request.host }} on your smartphone. Needs to be on the same wifi<p>
+        <img src="{{ url_for('static', filename='qr_code.png') }}">
+    </div>
 </body>
 </html>

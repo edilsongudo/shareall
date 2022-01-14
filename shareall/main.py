@@ -12,6 +12,7 @@ from flask import (
 import os
 import pathlib
 import socket
+from werkzeug.utils import secure_filename
 from utils import (
     get_extension_icon,
     reduce_file_name,
@@ -20,8 +21,9 @@ from utils import (
 )
 import requests
 import qrcode
-# from flaskwebgui import FlaskUI
+import shutil
 
+DESKTOP = False
 
 HOSTNAME = socket.gethostname()
 LOCAL_IP = socket.gethostbyname(HOSTNAME)
@@ -30,7 +32,6 @@ BASE_DIR = pathlib.Path(__file__).resolve(strict=True).parent
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 app = Flask(__name__, static_folder=STATIC_DIR, template_folder=TEMPLATES_DIR)
-# ui = FlaskUI(app, close_server_on_exit=False)
 
 
 @app.route("/", defaults={"path": None})
@@ -40,9 +41,14 @@ def home(path):
     # if is_wifi_turned_on():
     #     return render_template("activate_wifi.html")
 
-    generate_qr_code(LOCAL_IP, PORT)
+    # generate_qr_code(request.host)
 
-    DEFAULT_DIR = pathlib.Path(__file__).resolve(strict=True).parent
+    # if request.remote_addr == request.host.split(':')[0]:
+    #     return render_template("qr_code.html", IP=f"{LOCAL_IP}/{PORT}")
+
+    # DEFAULT_DIR = pathlib.Path(__file__).resolve(strict=True).parent
+    DEFAULT_DIR = pathlib.Path(os.path.expanduser('~'))
+
     if not path:
         path = DEFAULT_DIR
 
@@ -50,6 +56,8 @@ def home(path):
         return send_file(path, conditional=True)
 
     files = pathlib.Path(path).iterdir()
+    # print(help(shutil.make_archive), flush=True)
+
     media = []
     for f in files:
         if not pathlib.Path(f).name.startswith("."):
@@ -80,5 +88,9 @@ def home(path):
 
 
 if __name__ == "__main__":
-    # ui.run()
-    app.run(debug=True, host="0.0.0.0", port=PORT)
+    if DESKTOP:
+        from flaskwebgui import FlaskUI
+        ui = FlaskUI(app, close_server_on_exit=False)
+        ui.run()
+    else:
+        app.run(debug=True, host="0.0.0.0", port=PORT)
